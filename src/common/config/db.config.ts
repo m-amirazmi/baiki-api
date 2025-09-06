@@ -1,22 +1,27 @@
 import * as process from 'node:process';
 import { registerAs, ConfigType } from '@nestjs/config';
 
-export const dbConfig = registerAs('db', () => ({
-  connection: {
-    postgres: {
-      type: 'postgres' as const,
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432', 10),
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_NAME || 'app_db',
-      entities: ['./../Models/*.entity{.ts,.js}'],
-      migrations: ['./../database/migrations/*{.ts,.js}'],
-      synchronize: false,
-      migrationsRun: false,
-      logging: process.env.DB_LOGGING === 'true',
-    },
-  },
-}));
+type DbConfigReturnType = {
+  type: 'postgres';
+  url: string;
+  entities: string[];
+  migrations: string[];
+  synchronize: boolean;
+  migrationsRun: boolean;
+  logging: boolean;
+};
+
+export const dbConfig = registerAs(
+  'db',
+  (): DbConfigReturnType => ({
+    type: 'postgres',
+    url: process.env.DB_URL || '',
+    entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
+    migrations: [__dirname + '/../../database/migrations/*{.ts,.js}'],
+    synchronize: process.env.DB_SYNCHRONIZE === 'true',
+    migrationsRun: process.env.DB_MIGRATIONS_RUN === 'true',
+    logging: process.env.DB_LOGGING === 'true',
+  }),
+);
 
 export type DbConfigType = ConfigType<typeof dbConfig>;

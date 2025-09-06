@@ -10,9 +10,6 @@ export class AppService {
     const dbConfig = this.config.get<DbConfigType>('db');
     const appConfig = this.config.get<AppConfigType>('app');
 
-    console.log('Database Config:', dbConfig);
-    console.log('App Config:', appConfig?.name);
-
     return 'Hello World!';
   }
 }
