@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig } from './common/config/app.config';
 import { dbConfig, DbConfigType } from './common/config/db.config';
@@ -28,7 +26,5 @@ import { TenantsModule } from './tenants/tenants.module';
     UsersModule,
     TenantsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

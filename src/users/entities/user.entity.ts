@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserTenantRole } from './user-tenant-role.entity';
+import { Exclude } from 'class-transformer';
 
 export enum UserTypeEnum {
   PLATFORM = 'platform',
@@ -15,9 +16,7 @@ export enum UserTypeEnum {
 }
 
 @Entity('users')
-@Unique(['email'])
-@Unique(['username'])
-@Unique(['phoneNumber'])
+@Unique(['email', 'username', 'phoneNumber'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,6 +33,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
+  @Exclude()
   @Column()
   hashedPassword: string;
 
